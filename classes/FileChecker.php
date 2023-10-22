@@ -2,9 +2,9 @@
 
 class FileChecker{
 
-    public static function IsFileExist(string $file): bool
+    public static function IsFileExist(string $filePatch): bool
     {
-        if(!file_exists($file))
+        if(!file_exists($filePatch))
         {
             return false;
         }
@@ -13,16 +13,22 @@ class FileChecker{
     }
 
 
-    public static function IsFilesExist(array $filesList): bool
+    public static function VerifyFilesExist(array $filesPatchList)
     {
-        foreach($filesList as $file)
+        foreach($filesPatchList as $file)
         {
             if (!self::isFileExist($file))
             {
-                return false;
+                throw new Exception("Missing file: ".$file);
             }
+        }
+    }
 
-            return true;
+    public static function includeFiles(array $filesPatchList)
+    {
+        foreach($filesPatchList as $file)
+        {
+            include $filesPatchList;
         }
     }
 }

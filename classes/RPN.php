@@ -1,44 +1,22 @@
 <?php
 
-$file = "../interface/RPNIO.php";
-if(!file_exists($file)) throw new Exception("Missing file: ".$file);
-include $file;
+class RPN{
 
+    protected string $task;
 
-
-class RPN implements RPNIO{
-
-    private string $task;
-
-    public function __construct($task) 
+    public function __construct($Task) 
     {
-        if(self::validate($task))
-        {
-            $this->$task = $task;
-        }
+        if(!RPNValidate::validateAllChars($Task)) throw new Exception("There is an invalid character in the given string: ".$Task);
+        if(!RPNValidate::validateFirstChar($Task)) throw new Exception("Invalid first character: ".$Task);
+        if(!RPNValidate::validateBrackets($Task)) throw new Exception("The number of opening and closing brackets should be the same: ".$Task);
+
+        $this->task = $Task;
     }
 
-    public function validate(string $input):bool
+    public function getTask(): string
     {
-        $allowedChars = array(' ',',','/','^','*','+','-',')','(', 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
-        
-        foreach (str_split($input) as $char) {
-            if (!in_array($char, $allowedChars)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-    public function convertToRPN(string $input):string
-    {
-        return "";
-    }
-    public function calculate(string $input):float
-    {
-        return 0.0;
-    }
+        return $this->task;
+    }  
 }
-
 
 ?>

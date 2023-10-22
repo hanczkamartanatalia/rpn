@@ -16,3 +16,19 @@
     </div>
 </body>
 </html>
+
+<?php
+
+try{
+    include "classes/RPN.php";
+
+    $object = new RPN("32+");
+    $object->calculate($object->getTask());
+    
+}
+catch(Exception $ex)
+{
+    echo $ex->getMessage();
+}
+
+?>
