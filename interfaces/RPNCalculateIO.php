@@ -1,5 +1,6 @@
 <?php
-interface RPN
+
+interface RPNCalculateIO
 {
     public function calculate(string $input):float;
 }
