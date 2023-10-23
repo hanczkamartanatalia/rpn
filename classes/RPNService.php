@@ -4,7 +4,14 @@ if(!file_exists('classes/FileService.php')) throw new Exception("Missing file: "
 include_once 'classes/FileService.php';
 
 
-$filesPatchList = array('interfaces/RPNIO.php','classes/RPN.php','classes/OperatorService.php','classes/StackService.php', 'classes/CalculateService.php');
+$filesPatchList = array(
+    'interfaces/RPNIO.php',
+    'classes/RPN.php',
+    'classes/OperatorService.php',
+    'classes/StackService.php', 
+    'classes/CalculateService.php',
+    'classes/StringService.php');
+
 FileService::VerifyFilesExist($filesPatchList);
 FileService::includeFiles($filesPatchList);
 
@@ -14,51 +21,66 @@ class RPNService implements RPNIO
     {
         $stack = array();
         $output = "";
+        $previousChar = "";
         
         foreach(str_split($input) as $char)
         {
             switch($char)
             {
                 case ' ': break;
-                case ',':
+                case '.':
                 {
+                    $output = substr($output, 0, -1);
                     $output.=$char;
+                    $previousChar = $char;
                     break;
                 }
                 case is_numeric($char): 
                 {
+                    if(is_numeric($previousChar))
+                    {
+                        $output = substr($output, 0, -1);
+                    }
                     $output.=$char." ";
+                    $previousChar = $char;
                     break;
                 }
                 case '(':
                 {
                     $stack[]=$char;
+                    $previousChar = $char;
                     break;
                 }
                 case ')':
                 {
                     StackService::removingFromStackToBracket($stack, $output);
+                    $previousChar = $char;
                     break;
                 }
                 case array_key_exists($char,OperatorService::$operatorPriority):
                 {
-                    if(StackService::isAHigherOperatorInTheStack($char,$stack))
+                    if(empty($stack) && $char == '-') 
+                    {
+                        $output.=$char;
+                        $previousChar = $char;
+                        break;
+                    }
+                    else if(StackService::isAHigherOperatorInTheStack($char,$stack))
                     {
                         StackService::removingFromStackToBracket($stack, $output);
                     }
+
                     $stack[]=$char;
+                    $previousChar = $char;
                     break;
                 }
             }
         }        
 
-        if(!empty($stack)){
-            $reverseStack = array_reverse($stack);
-            foreach($reverseStack as $itemList)
-            {
-                if($itemList != '(') $output.= $itemList; 
-            }
-        }
+
+
+        StackService::addStackToString($stack,$output);
+        StringService::removeSpaceAtTheEnd($output);
 
         return $output;
     }
@@ -67,35 +89,28 @@ class RPNService implements RPNIO
     public static function calculate(string $input):float
     {
         $stack = array();
-        $output = 0.0;
-        
         $charsList = explode(' ', $input);
 
         foreach($charsList as $char)
         {
-           switch($char){
-            case is_numeric($char): 
+            switch($char){
+                case is_numeric($char): 
                 {
                     $stack[]= $char;
                     break;
                 }
-            case OperatorService::isOperator($char):
+                case OperatorService::isOperator($char):
                 {
                     $younger = array_pop($stack);
                     $older = array_pop($stack);
                     $stack[] = CalculateService::calculateTheValue($younger, $older, $char);
                 }
-           }
+            }
         }
 
         $output = $stack[0];
         return $output;
     }
-
-
-    
-
-    
 }
 
 ?>

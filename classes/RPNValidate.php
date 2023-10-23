@@ -6,7 +6,7 @@ class RPNValidate{
 
     public static function validateAllChars(string $input):bool
     {
-        $allowedChars = array(' ',',','/','^','*','+','-',')','(', 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
+        $allowedChars = array(' ','.','/','^','*','+','-',')','(', 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
         
         foreach (str_split($input) as $char) {
             if (!in_array($char, $allowedChars)) {
@@ -19,7 +19,7 @@ class RPNValidate{
 
     public static function validateFirstChar(string $input):bool
     {
-        $invalidFirstChar = array(' ',',','/','^','*','+',')');
+        $invalidFirstChar = array(' ','.','/','^','*','+',')');
         
         if (in_array($input[0], $invalidFirstChar)) 
         {

@@ -5,7 +5,7 @@ class OperatorService
     public static $operatorPriority = array(
         '^' => 1,
         '*' => 2,
-        ':' => 2,
+        '/' => 2,
         '+' => 3,
         '-' => 3
     );

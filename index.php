@@ -22,7 +22,7 @@
 try{
     include "classes/RPN.php";
 
-    $a = new RPN('1+2*(2+1)');
+    $a = new RPN('-1 + 22.3');
     echo $a->getConventionalNotation().'<br>';
     echo $a->getRPNNotation().'<br>';
     echo $a -> getResult().'<br>';

@@ -35,5 +35,16 @@ public static function removingFromStackToBracket(&$stack, &$output)
         return false;
     }
 
+    public static function addStackToString($stack,&$output)
+    {
+        if(!empty($stack)){
+            $reverseStack = array_reverse($stack);
+            foreach($reverseStack as $itemList)
+            {
+                if($itemList != '(') $output.= $itemList.' '; 
+            }
+        }
+    }
+
 }
 ?>
