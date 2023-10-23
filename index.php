@@ -8,29 +8,9 @@
 <body>
     <div>
         <h1 class="header">Podaj wyrażenie do policzenia</h1>
-        <form name="sendTask" action="">
-            <input type="text">
-
-        </form>
-
     </div>
+    <?php
+    if(file_exists("views/form.php"))include_once "views/form.php";
+    ?>
 </body>
 </html>
-
-<?php
-
-try{
-    include "classes/RPN.php";
-
-    $a = new RPN('-1 + 22.3');
-    echo $a->getConventionalNotation().'<br>';
-    echo $a->getRPNNotation().'<br>';
-    echo $a -> getResult().'<br>';
-    
-}
-catch(Exception $ex)
-{
-    echo $ex->getMessage();
-}
-
-?>
