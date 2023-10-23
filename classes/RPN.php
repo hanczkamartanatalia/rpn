@@ -15,10 +15,12 @@ class RPN{
 
     public function __construct($ConventionalNotation) 
     {
-        if(!RPNValidate::validateAllChars($ConventionalNotation)) throw new Exception("There is an invalid character in the given string: ".$ConventionalNotation);
-        if(!RPNValidate::validateFirstChar($ConventionalNotation)) throw new Exception("Invalid first character: ".$ConventionalNotation);
-        if(!RPNValidate::validateBrackets($ConventionalNotation)) throw new Exception("The number of opening and closing brackets should be the same: ".$ConventionalNotation);
-
+        RPNValidate::validateAllChars($ConventionalNotation);
+        RPNValidate::validateFirstChar($ConventionalNotation);
+        RPNValidate::validateBrackets($ConventionalNotation);
+        RPNValidate::validateCharNextToTheBracket($ConventionalNotation,'(');
+        RPNValidate::validateCharNextToTheBracket(strrev($ConventionalNotation), ')');
+        
         $this->conventionalNotation = $ConventionalNotation;
         $this->RPNNotation = RPNService::convertToRPN($this->conventionalNotation);
         $this->result = RPNService::calculate($this->RPNNotation);
