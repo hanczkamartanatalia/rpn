@@ -1,12 +1,12 @@
 <?php
 
-if(!file_exists('classes/FileChecker.php')) throw new Exception("Missing file: ".'FileChecker.php');
-include 'classes/FileChecker.php';
+if(!file_exists('classes/FileService.php')) throw new Exception("Missing file: ".'FileService.php');
+include 'classes/FileService.php';
 
 
 $filesPatchList = array('interfaces/RPNIO.php','classes/RPN.php','classes/OperatorService.php','classes/StackService.php');
-FileChecker::VerifyFilesExist($filesPatchList);
-FileChecker::includeFiles($filesPatchList);
+FileService::VerifyFilesExist($filesPatchList);
+FileService::includeFiles($filesPatchList);
 
 class RPNService extends RPN implements RPNIO
 {
@@ -40,7 +40,7 @@ class RPNService extends RPN implements RPNIO
                     StackService::removingFromStackToBracket($stack, $output);
                     break;
                 }
-                case array_key_exists($char,OperatorsService::$operatorPriority):
+                case array_key_exists($char,OperatorService::$operatorPriority):
                 {
                     if(StackService::isAHigherOperatorInTheStack($char,$stack))
                     {
@@ -79,7 +79,7 @@ class RPNService extends RPN implements RPNIO
                     $stack[]= $char;
                     break;
                 }
-                case OperatorsService::isOperator($char):
+                case OperatorService::isOperator($char):
                 {
                     $younger = array_pop($stack);
                     $older = array_pop($stack);

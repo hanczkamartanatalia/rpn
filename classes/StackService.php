@@ -20,14 +20,14 @@ public static function removingFromStackToBracket(&$stack, &$output)
 
     public static function isAHigherOperatorInTheStack($char,$stack):bool
     {
-        $operatorPriorityOfAGivenChar = OperatorsService::findOperatorPriority($char);
+        $operatorPriorityOfAGivenChar = OperatorService::findOperatorPriority($char);
 
         $reverseStack = array_reverse($stack);
         foreach( $reverseStack as $element)
         {
             if($element != '(')
             {
-                $operatorPriorityFromTheStack = OperatorsService::findOperatorPriority($element);
+                $operatorPriorityFromTheStack = OperatorService::findOperatorPriority($element);
                 if($operatorPriorityFromTheStack > $operatorPriorityOfAGivenChar) return true;
             } 
         }

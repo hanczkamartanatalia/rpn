@@ -20,10 +20,10 @@
 <?php
 
 try{
-    include "classes/RPN.php";
+    include "classes/FileService.php";
+    FileService::IsFileExist('classes/RPN.php');
+    
 
-    $object = new RPN("32+");
-    $object->calculate($object->getTask());
     
 }
 catch(Exception $ex)

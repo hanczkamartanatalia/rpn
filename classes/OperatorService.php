@@ -1,6 +1,6 @@
 <?php
 
-class OperatorsService
+class OperatorService
 {
     public static $operatorPriority = array(
         '^' => 1,

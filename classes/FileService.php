@@ -1,12 +1,12 @@
 <?php
 
-class FileChecker{
+class FileService{
 
     public static function IsFileExist(string $filePatch): bool
     {
         if(!file_exists($filePatch))
         {
-            return false;
+            throw new Exception("Missing file: ".$filePatch);
         }
 
         return true;
