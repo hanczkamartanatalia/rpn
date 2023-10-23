@@ -2,6 +2,8 @@
 
 class RPNValidate{
 
+    #TODO Sprawdz czy przed i po nawiasie jest operator
+
     public static function validateAllChars(string $input):bool
     {
         $allowedChars = array(' ',',','/','^','*','+','-',')','(', 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);

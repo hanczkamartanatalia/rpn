@@ -2,22 +2,11 @@
 
 class FileService{
 
-    public static function IsFileExist(string $filePatch): bool
-    {
-        if(!file_exists($filePatch))
-        {
-            throw new Exception("Missing file: ".$filePatch);
-        }
-
-        return true;
-    }
-
-
     public static function VerifyFilesExist(array $filesPatchList)
     {
         foreach($filesPatchList as $file)
         {
-            if (!self::isFileExist($file))
+            if(!file_exists($file))
             {
                 throw new Exception("Missing file: ".$file);
             }
@@ -28,7 +17,7 @@ class FileService{
     {
         foreach($filesPatchList as $file)
         {
-            include $filesPatchList;
+            include_once $file;
         }
     }
 }

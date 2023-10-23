@@ -1,21 +1,21 @@
 <?php
 
 if(!file_exists('classes/FileService.php')) throw new Exception("Missing file: ".'FileService.php');
-include 'classes/FileService.php';
+include_once 'classes/FileService.php';
 
 
-$filesPatchList = array('interfaces/RPNIO.php','classes/RPN.php','classes/OperatorService.php','classes/StackService.php');
+$filesPatchList = array('interfaces/RPNIO.php','classes/RPN.php','classes/OperatorService.php','classes/StackService.php', 'classes/CalculateService.php');
 FileService::VerifyFilesExist($filesPatchList);
 FileService::includeFiles($filesPatchList);
 
-class RPNService extends RPN implements RPNIO
+class RPNService implements RPNIO
 {
-    public function convertToRPN():string
+    public static function convertToRPN(string $input):string
     {
         $stack = array();
         $output = "";
         
-        foreach(str_split($this->task) as $char)
+        foreach(str_split($input) as $char)
         {
             switch($char)
             {
@@ -56,7 +56,7 @@ class RPNService extends RPN implements RPNIO
             $reverseStack = array_reverse($stack);
             foreach($reverseStack as $itemList)
             {
-                if($itemList != '(') $output[] = $itemList; 
+                if($itemList != '(') $output.= $itemList; 
             }
         }
 
@@ -64,12 +64,12 @@ class RPNService extends RPN implements RPNIO
     }
     
     
-    public function calculate():float
+    public static function calculate(string $input):float
     {
         $stack = array();
         $output = 0.0;
         
-        $charsList = explode(' ', $this->task);
+        $charsList = explode(' ', $input);
 
         foreach($charsList as $char)
         {
@@ -79,11 +79,11 @@ class RPNService extends RPN implements RPNIO
                     $stack[]= $char;
                     break;
                 }
-                case OperatorService::isOperator($char):
+            case OperatorService::isOperator($char):
                 {
                     $younger = array_pop($stack);
                     $older = array_pop($stack);
-                    $stack[] = self::calculateTheValue($younger, $older, $char);
+                    $stack[] = CalculateService::calculateTheValue($younger, $older, $char);
                 }
            }
         }
@@ -95,25 +95,7 @@ class RPNService extends RPN implements RPNIO
 
     
 
-    private static function calculateTheValue(float $younger, float $older, string $operator)
-    {
-        switch($operator)
-	{
-		case '+': 
-			return $older + $younger;
-		case '-': 
-			return $older - $younger;
-		case '*': 
-			return $older * $younger;
-		case '/': 
-			return $older / $younger;
-        case '^':
-            return $older ^ $younger;
-	}
-	return 0;
-    }
-
-
+    
 }
 
 ?>

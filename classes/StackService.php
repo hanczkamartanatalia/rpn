@@ -28,7 +28,7 @@ public static function removingFromStackToBracket(&$stack, &$output)
             if($element != '(')
             {
                 $operatorPriorityFromTheStack = OperatorService::findOperatorPriority($element);
-                if($operatorPriorityFromTheStack > $operatorPriorityOfAGivenChar) return true;
+                if($operatorPriorityFromTheStack < $operatorPriorityOfAGivenChar) return true;
             } 
         }
         
