@@ -27,7 +27,11 @@ public static function removingFromStackToBracket(&$stack, &$output, bool $remov
         $reverseStack = array_reverse($stack);
         foreach( $reverseStack as $element)
         {
-            if($element != '(')
+            if($element == '(')
+            {
+                return false;
+            }
+            else if($element != '(')
             {
                 $operatorPriorityFromTheStack = OperatorService::findOperatorPriority($element);
                 if($operatorPriorityFromTheStack <= $operatorPriorityOfAGivenChar) return true;
