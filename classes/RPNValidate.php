@@ -25,7 +25,7 @@ class RPNValidate{
         $countNumbers = StringService::countTheNumbersInTheText($input);
         $countOperators = StringService::countTheOperatorsInTheText($input);
 
-        if($countNumbers<$countOperators) throw new Exception("Incorrect example.");
+        if($countNumbers<=$countOperators) throw new Exception("Incorrect example.");
         if($countNumbers == 0) throw new Exception("The number of number is 0");
         if($countOperators == 0) throw new Exception("The number of operators is 0");
 
