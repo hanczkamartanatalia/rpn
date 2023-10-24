@@ -15,7 +15,7 @@ class CalculateService{
 		    case '/': 
 			    return $older / $younger;
             case '^':
-                return $older ^ $younger;
+                return $older ** $younger;
 	    }
 	    return 0;
     }

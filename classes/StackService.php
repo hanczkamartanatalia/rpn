@@ -2,7 +2,7 @@
 
 class StackService{
 
-public static function removingFromStackToBracket(&$stack, &$output)
+public static function removingFromStackToBracket(&$stack, &$output, bool $removeWithBracket)
     {
         $reverseStack = array_reverse($stack);
         foreach( $reverseStack as $key => $element)
@@ -16,6 +16,8 @@ public static function removingFromStackToBracket(&$stack, &$output)
         }
 
         $stack = array_reverse($reverseStack);
+        if($removeWithBracket) array_pop($stack);
+        
     }
 
     public static function isAHigherOperatorInTheStack($char,$stack):bool
@@ -28,7 +30,7 @@ public static function removingFromStackToBracket(&$stack, &$output)
             if($element != '(')
             {
                 $operatorPriorityFromTheStack = OperatorService::findOperatorPriority($element);
-                if($operatorPriorityFromTheStack < $operatorPriorityOfAGivenChar) return true;
+                if($operatorPriorityFromTheStack <= $operatorPriorityOfAGivenChar) return true;
             } 
         }
         
@@ -45,6 +47,5 @@ public static function removingFromStackToBracket(&$stack, &$output)
             }
         }
     }
-
 }
 ?>

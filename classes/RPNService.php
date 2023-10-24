@@ -30,6 +30,7 @@ class RPNService implements RPNIO
                 case ' ': break;
                 case '.':
                 {
+                    // is this a decimal number
                     $output = substr($output, 0, -1);
                     $output.=$char;
                     $previousChar = $char;
@@ -53,13 +54,14 @@ class RPNService implements RPNIO
                 }
                 case ')':
                 {
-                    StackService::removingFromStackToBracket($stack, $output);
+                    StackService::removingFromStackToBracket($stack, $output, true);
                     $previousChar = $char;
                     break;
                 }
                 case array_key_exists($char,OperatorService::$operatorPriority):
                 {
-                    if(empty($stack) && $char == '-') 
+                    // whether the first number is negative
+                    if((empty($output) || $previousChar=='(') && $char == '-') 
                     {
                         $output.=$char;
                         $previousChar = $char;
@@ -67,7 +69,7 @@ class RPNService implements RPNIO
                     }
                     else if(StackService::isAHigherOperatorInTheStack($char,$stack))
                     {
-                        StackService::removingFromStackToBracket($stack, $output);
+                        StackService::removingFromStackToBracket($stack, $output,false);
                     }
 
                     $stack[]=$char;
@@ -77,14 +79,11 @@ class RPNService implements RPNIO
             }
         }        
 
-
-
         StackService::addStackToString($stack,$output);
         StringService::removeSpaceAtTheEnd($output);
 
         return $output;
     }
-    
     
     public static function calculate(string $input):float
     {
