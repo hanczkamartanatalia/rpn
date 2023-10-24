@@ -8,9 +8,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         $conventionalNotation = $_POST['conventionalNotation'];
         $object = new RPN($conventionalNotation);
 
-        echo "Podany przykład: ".$object->getConventionalNotation()."</br>";
-        echo "Notacja ONP: ". $object->getRPNNotation()."</br>";
-        echo "Wynik: ". $object->getResult()."</br>";
+        echo "Example given: ".$object->getConventionalNotation()."</br>";
+        echo "RPN notation: ". $object->getRPNNotation()."</br>";
+        echo "Result: ". $object->getResult()."</br>";
 
 
     }
