@@ -46,6 +46,16 @@ class RPNService implements RPNIO
                     $previousChar = $char;
                     break;
                 }
+                case 0:
+                {
+                    if(is_numeric($previousChar))
+                    {
+                        $output = substr($output, 0, -1);
+                    }
+                    $output.=$char." ";
+                    $previousChar = $char;
+                    break;
+                } 
                 case '(':
                 {
                     $stack[]=$char;
@@ -94,6 +104,11 @@ class RPNService implements RPNIO
         {
             switch($char){
                 case is_numeric($char): 
+                {
+                    $stack[]= $char;
+                    break;
+                }
+                case 0:
                 {
                     $stack[]= $char;
                     break;

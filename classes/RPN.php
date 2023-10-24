@@ -20,6 +20,9 @@ class RPN{
         RPNValidate::validateBrackets($ConventionalNotation);
         RPNValidate::validateCharNextToTheBracket($ConventionalNotation,'(');
         RPNValidate::validateCharNextToTheBracket(strrev($ConventionalNotation), ')');
+        RPNValidate::validateNumberOfCharsExceeds2($ConventionalNotation);
+        RPNValidate::validateTheNumberOfOperatorsIsLessThanTheNumberOfNumbers($ConventionalNotation);
+        RPNValidate::validateTextEndsWithAnOperator($ConventionalNotation);
         
         $this->conventionalNotation = $ConventionalNotation;
         $this->RPNNotation = RPNService::convertToRPN($this->conventionalNotation);

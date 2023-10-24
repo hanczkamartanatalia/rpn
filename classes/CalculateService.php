@@ -13,7 +13,11 @@ class CalculateService{
 		    case '*': 
 			    return $older * $younger;
 		    case '/': 
-			    return $older / $younger;
+			{
+				if($younger == 0) throw new Exception("Division by zero");
+				return $older / $younger;
+			}
+			    
             case '^':
                 return $older ** $younger;
 	    }

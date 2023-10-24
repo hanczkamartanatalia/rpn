@@ -1,5 +1,7 @@
 <?php
 
+if(file_exists("classes/StringService.php")) require_once "classes/StringService.php";
+
 class RPNValidate{
 
     public static function validateAllChars(string $input)
@@ -11,6 +13,30 @@ class RPNValidate{
                 throw new Exception("There is an invalid character in the given string: ".$input);
             }
         }
+    }
+
+    public static function validateNumberOfCharsExceeds2(string $input)
+    {
+        if(strlen($input)<3) throw new Exception("Incorrect example. Should contain more characters.");
+    }
+
+    public static function validateTheNumberOfOperatorsIsLessThanTheNumberOfNumbers(string $input)
+    {
+        $countNumbers = StringService::countTheNumbersInTheText($input);
+        $countOperators = StringService::countTheOperatorsInTheText($input);
+
+        if($countNumbers<$countOperators) throw new Exception("Incorrect example.");
+        if($countNumbers == 0) throw new Exception("The number of number is 0");
+        if($countOperators == 0) throw new Exception("The number of operators is 0");
+
+    }
+
+    public static function validateTextEndsWithAnOperator(string $input)
+    {
+        $invalidChars = array('.','/','^','*','+','-','(');
+        $lastChar = substr($input, -1);
+
+        if(in_array($lastChar,$invalidChars)) throw new Exception("Incorrect example.");
     }
 
     public static function validateFirstChar(string $input)
@@ -50,7 +76,6 @@ class RPNValidate{
             }
 
             if(is_numeric($previewChar)) throw new Exception("Incorrect value: ".$input." There should be an operator next to the bracket");
-            
         }
     }
 
