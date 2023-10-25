@@ -64,7 +64,7 @@ class RPNService implements RPNIO
                 }
                 case ')':
                 {
-                    StackService::removingFromStackToBracket($stack, $output, true);
+                    StackService::removingFromStackToBracket($stack, $output);
                     $previousChar = $char;
                     break;
                 }
@@ -79,7 +79,7 @@ class RPNService implements RPNIO
                     }
                     else if(StackService::isAHigherOperatorInTheStack($char,$stack))
                     {
-                        StackService::removingFromStackToBracket($stack, $output,false);
+                        StackService::removingFromStackToBracketOrLowerPriorityOperator($stack, $output,$char);
                     }
 
                     $stack[]=$char;

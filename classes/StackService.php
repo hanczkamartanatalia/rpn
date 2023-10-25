@@ -2,7 +2,7 @@
 
 class StackService{
 
-public static function removingFromStackToBracket(&$stack, &$output, bool $removeWithBracket)
+    public static function removingFromStackToBracket(&$stack, &$output)
     {
         $reverseStack = array_reverse($stack);
         foreach( $reverseStack as $key => $element)
@@ -16,8 +16,28 @@ public static function removingFromStackToBracket(&$stack, &$output, bool $remov
         }
 
         $stack = array_reverse($reverseStack);
-        if($removeWithBracket) array_pop($stack);
+        array_pop($stack);
         
+    }
+    public static function removingFromStackToBracketOrLowerPriorityOperator(&$stack, &$output, $operator)
+    {
+        $reverseStack = array_reverse($stack);
+        $operatorPriority = OperatorService::findOperatorPriority($operator);
+        foreach( $reverseStack as $key => $element)
+        {
+            if($element == '(') break;
+            
+            if(OperatorService::isOperator($element))
+            {
+                $elemPriority = OperatorService::findOperatorPriority($element);
+                if($elemPriority>$operatorPriority) break;
+            }
+            
+            $output.=$element." ";
+            unset($reverseStack[$key]);  
+        }
+
+        $stack = array_reverse($reverseStack);
     }
 
     public static function isAHigherOperatorInTheStack($char,$stack):bool
@@ -31,11 +51,10 @@ public static function removingFromStackToBracket(&$stack, &$output, bool $remov
             {
                 return false;
             }
-            else if($element != '(')
-            {
-                $operatorPriorityFromTheStack = OperatorService::findOperatorPriority($element);
-                if($operatorPriorityFromTheStack <= $operatorPriorityOfAGivenChar) return true;
-            } 
+            
+            $operatorPriorityFromTheStack = OperatorService::findOperatorPriority($element);
+            if($operatorPriorityFromTheStack <= $operatorPriorityOfAGivenChar) return true;
+
         }
         
         return false;
