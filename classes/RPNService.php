@@ -17,6 +17,38 @@ FileService::includeFiles($filesPatchList);
 
 class RPNService implements RPNIO
 {
+       
+    public static function calculate(string $input):float
+    {
+        $stack = array();
+        $charsList = explode(' ', $input);
+
+        foreach($charsList as $char)
+        {
+            switch($char){
+                case is_numeric($char): 
+                {
+                    $stack[]= $char;
+                    break;
+                }
+                case 0:
+                {
+                    $stack[]= $char;
+                    break;
+                }
+                case OperatorService::isOperator($char):
+                {
+                    $younger = array_pop($stack);
+                    $older = array_pop($stack);
+                    $stack[] = CalculateService::calculateTheValue($younger, $older, $char);
+                }
+            }
+        }
+
+        $output = $stack[0];
+        return $output;
+    }
+
     public static function convertToRPN(string $input):string
     {
         $stack = array();
@@ -92,37 +124,6 @@ class RPNService implements RPNIO
         StackService::addStackToString($stack,$output);
         StringService::removeSpaceAtTheEnd($output);
 
-        return $output;
-    }
-    
-    public static function calculate(string $input):float
-    {
-        $stack = array();
-        $charsList = explode(' ', $input);
-
-        foreach($charsList as $char)
-        {
-            switch($char){
-                case is_numeric($char): 
-                {
-                    $stack[]= $char;
-                    break;
-                }
-                case 0:
-                {
-                    $stack[]= $char;
-                    break;
-                }
-                case OperatorService::isOperator($char):
-                {
-                    $younger = array_pop($stack);
-                    $older = array_pop($stack);
-                    $stack[] = CalculateService::calculateTheValue($younger, $older, $char);
-                }
-            }
-        }
-
-        $output = $stack[0];
         return $output;
     }
 }

@@ -2,9 +2,11 @@
 
 interface RPNIO
 {
-    public static function convertToRPN(string $input):string;
-
-    /* Pozwoliłam sobie na zrobienie z niej funkcji statycznej aby lepiej pasowało do zaproponowanego przeze mnie rozwiązania.
+    /* 
+    Zrobiłam z niej funkcję statyczną, ponieważ nie odpowiadała mi zaproponowana wersja.
+    Widziałam tu dwa rozwiązania,natomiast żadna nie była tą zaproponowaną.
+    Wersja pierwsza: funkcja statyczna
+    Wersja druga: bez przekazanego parametru do funkcji, tylko pobranie jej z pola instancji, na której wywołujemy funkcję.
      */
     public static function calculate(string $input):float;
 }
